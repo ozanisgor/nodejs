@@ -1,0 +1,23 @@
+{
+  "name": "my-nodejs-app",
+  "version": "1.0.0",
+  "description": "This is a follow along project for Node JS learning",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ozanisgor/nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ozanisgor/nodejs/issues"
+  },
+  "homepage": "https://github.com/ozanisgor/nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
