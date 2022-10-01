@@ -1,18 +1,37 @@
 const express = require('express');
 const bookRouter = express.Router();
+const main = require('../database/db');
 
 bookRouter
   .route('/')
-  .get((req, res) => {
-    res.send('All Books');
+  .get(async (req, res) => {
+    const db = await main();
+    const allBooks = await db.collection('books').find().toArray();
+    res.json(allBooks);
   })
-  .post((req, res) => {
+  .post(async (req, res) => {
+    const db = await main();
+    const data = {
+      title: 'first book',
+      author: 'first author'
+    };
+    await db.collection('books').insertOne(data);
     res.json({ data: 'Book created' });
   });
 
-bookRouter.get('/:id', (req, res) => {
-  const { id } = req.params;
-  res.send(`Showing book ID: ${id}`);
-});
+bookRouter
+  .route('/:id')
+  .get((req, res) => {
+    const { id } = req.params;
+    res.send(`Showing book ID: ${id}`);
+  })
+  .patch((req, res) => {
+    const { id } = req.params;
+    res.send(`Showing book ID: ${id} to update`);
+  })
+  .delete((req, res) => {
+    const { id } = req.params;
+    res.send(`Showing book ID: ${id} to delete`);
+  });
 
 module.exports = bookRouter;
