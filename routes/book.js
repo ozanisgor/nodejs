@@ -11,11 +11,8 @@ bookRouter
   })
   .post(async (req, res) => {
     const db = await main();
-    const data = {
-      title: 'first book',
-      author: 'first author'
-    };
-    await db.collection('books').insertOne(data);
+
+    await db.collection('books').insertOne(req.body);
     res.json({ data: 'Book created' });
   });
 
