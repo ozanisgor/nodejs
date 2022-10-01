@@ -6,6 +6,8 @@ const routes = require('./routes/index');
 const app = express();
 const PORT = 3000;
 
+app.set('view engine', 'ejs');
+
 app.use(routes);
 
 app.listen(PORT, () => {

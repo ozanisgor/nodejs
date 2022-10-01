@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bookRouter = require('./book');
+const path = require('path');
 
 router.get('/', (req, res) => {
-  res.send('Hello Express!');
+  res.render('../views/index.ejs', { name: 'Ozan' });
 });
 
 router.use('/book', bookRouter);
