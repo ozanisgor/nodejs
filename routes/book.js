@@ -1,4 +1,5 @@
 const express = require('express');
+const { ObjectId } = require('mongodb');
 const bookRouter = express.Router();
 const main = require('../database/db');
 
@@ -11,24 +12,29 @@ bookRouter
   })
   .post(async (req, res) => {
     const db = await main();
-
     await db.collection('books').insertOne(req.body);
-    res.json({ data: 'Book created' });
+    res.status(201).json({ data: 'Book created' });
   });
 
 bookRouter
   .route('/:id')
-  .get((req, res) => {
-    const { id } = req.params;
-    res.send(`Showing book ID: ${id}`);
+  .get(async (req, res) => {
+    const _id = ObjectId(req.params.id);
+    const db = await main();
+    const book = await db.collection('books').findOne({ _id });
+    res.json(book);
   })
-  .patch((req, res) => {
-    const { id } = req.params;
-    res.send(`Showing book ID: ${id} to update`);
+  .patch(async (req, res) => {
+    const _id = ObjectId(req.params.id);
+    const db = await main();
+    await db.collection('books').updateOne({ _id }, { $set: req.body });
+    res.json({ data: 'Book updated' });
   })
-  .delete((req, res) => {
-    const { id } = req.params;
-    res.send(`Showing book ID: ${id} to delete`);
+  .delete(async (req, res) => {
+    const _id = ObjectId(req.params.id);
+    const db = await main();
+    await db.collection('books').deleteOne({ _id });
+    res.status(204).json();
   });
 
 module.exports = bookRouter;
