@@ -1,10 +1,9 @@
-const main = require('../database/db');
 const { ObjectId } = require('mongodb');
+const Book = require('../models/Book');
 
 exports.index = async (req, res) => {
-  const db = await main();
-  const allBooks = await db.collection('books').find().toArray();
-  res.json(allBooks);
+  const books = await Book.find();
+  res.json(books);
 };
 
 exports.store = async (req, res) => {
@@ -15,21 +14,18 @@ exports.store = async (req, res) => {
 
 exports.show = async (req, res) => {
   const _id = ObjectId(req.params.id);
-  const db = await main();
-  const book = await db.collection('books').findOne({ _id });
+  const book = await Book.findOne({ _id });
   res.json(book);
 };
 
 exports.update = async (req, res) => {
   const _id = ObjectId(req.params.id);
-  const db = await main();
-  await db.collection('books').updateOne({ _id }, { $set: req.body });
+  await Book.updateOne({ _id }, req.body);
   res.json({ data: 'Book updated' });
 };
 
 exports.destroy = async (req, res) => {
   const _id = ObjectId(req.params.id);
-  const db = await main();
-  await db.collection('books').deleteOne({ _id });
+  await Book.deleteOne({ _id });
   res.status(204).json();
 };
