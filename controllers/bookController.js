@@ -7,8 +7,12 @@ exports.index = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  await Book.create(req.body);
-  res.status(201).json({ data: 'Book created' });
+  try {
+    await Book.create(req.body);
+    res.status(201).json({ data: 'Book created' });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
 };
 
 exports.show = async (req, res) => {
