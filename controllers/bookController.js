@@ -7,8 +7,7 @@ exports.index = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  const db = await main();
-  await db.collection('books').insertOne(req.body);
+  await Book.create(req.body);
   res.status(201).json({ data: 'Book created' });
 };
 
