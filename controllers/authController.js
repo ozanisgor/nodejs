@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const saltRounds = 10;
 
 exports.signup = async (req, res) => {
@@ -19,5 +21,6 @@ exports.login = async (req, res) => {
     res.status(404).json({ message: 'User not found or wrong password' });
     return;
   }
-  res.json({ user });
+  const token = await jwt.sign({ user }, 'fake-jwt-secret');
+  res.json({ user, access_token: token });
 };
